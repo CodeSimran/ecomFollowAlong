@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import  Myproduct from "../components/auth/myProducts";   //change in this line
+import Myproduct from "../components/auth/myProducts"; // <-- Import the Product component
+
 
 export default function MyProducts() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const email = "Pranav@gmail.com"; //mail which is present in mongodb
+    const email = "Pranav@gmail.com";
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/v2/product/my-products?email=${email}`)
@@ -20,7 +21,7 @@ export default function MyProducts() {
                 setLoading(false);
             })
             .catch((err) => {
-                console.error(" Error fetching products:", err);
+                console.error("Error fetching products:", err);
                 setError(err.message);
                 setLoading(false);
             });
@@ -39,7 +40,7 @@ export default function MyProducts() {
             <h1 className="text-3xl text-center text-white py-6">My products</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
                 {products.map((product) => (
-                    <Myproduct key={product._id} {...product} />  //change in this line
+                    <Myproduct key={product._id} {...product} />
                 ))}
             </div>
         </div>

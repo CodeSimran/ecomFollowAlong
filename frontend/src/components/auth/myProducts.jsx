@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
 import { useNavigate } from "react-router-dom";
+import axios from 'axios' //Add this line for M14
 
 function Myproduct({ _id, name, images, description, price }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,6 +19,21 @@ function Myproduct({ _id, name, images, description, price }) {
 
     const handleEdit = () => {
         navigate(`/create-product/${_id}`);
+    };
+    const handleDelete = async () => { //Add this line for M14
+        try {
+            const response = await axios.delete(
+                `http://localhost:8000/api/v2/product/delete-product/${_id}`
+            );
+            if (response.status === 200) {
+                alert("Product deleted successfully!");
+                // Reload the page or fetch products again
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error("Error deleting product:", err);
+            alert("Failed to delete product.");
+        }
     };
 
     return (
@@ -40,7 +56,13 @@ function Myproduct({ _id, name, images, description, price }) {
                     onClick={handleEdit}
                 >
                     Edit
-                </button>
+                </button> 
+                <button
+                    className="w-full text-white px-4 py-2 rounded-md bg-neutral-900 hover:bg-neutral-700 transition duration-300 mt-2"
+                    onClick={handleDelete}
+                >
+                    Delete
+                </button>  
             </div>
         </div>
     );
