@@ -73,47 +73,64 @@ router.post("/login", catchAsyncErrors(async (req, res, next) => {
 router.get("/profile", catchAsyncErrors(async (req, res, next) => {
     const { email } = req.query;
     if (!email) {
-    return next(new ErrorHandler("Please provide an email", 400));
+        return next(new ErrorHandler("Please provide an email", 400));
     }
     const user = await User.findOne({ email });
     if (!user) {
-    return next(new ErrorHandler("User not found", 404));
+        return next(new ErrorHandler("User not found", 404));
     }
     res.status(200).json({
-    success: true,
-    user: {
-    name: user.name,
-    email: user.email,
-    phoneNumber: user.phoneNumber,
-    avatarUrl: user.avatar.url
-    },
-    addresses: user.addresses,
+        success: true,
+        user: {
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            avatarUrl: user.avatar.url
+        },
+        addresses: user.addresses,
     });
-   }));
+}));
 
 
-   router.post("/add-address", catchAsyncErrors(async (req, res, next) => {
+router.post("/add-address", catchAsyncErrors(async (req, res, next) => {
     const { country, city, address1, address2, zipCode, addressType, email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-    return next(new ErrorHandler("User not found", 404));
+        return next(new ErrorHandler("User not found", 404));
     }
     const newAddress = {
-    country,
-    city,
-    address1,
-    address2,
-    zipCode,
-    addressType,
+        country,
+        city,
+        address1,
+        address2,
+        zipCode,
+        addressType,
     };
     user.addresses.push(newAddress);
     await user.save();
     res.status(201).json({
-    success: true,
-    addresses: user.addresses,
+        success: true,
+        addresses: user.addresses,
     });
-   }));
+}));
 
+
+
+router.get("/addresses", catchAsyncErrors(async (req, res, next) => {
+    const { email } = req.query;
+    if (!email) {
+        return next(new ErrorHandler("Please provide an email", 400));
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+    }
+    res.status(200).json({
+        success: true,
+        addresses: user.addresses,
+    });
+}
+));
 
 
 module.exports = router;
