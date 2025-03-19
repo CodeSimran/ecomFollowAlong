@@ -95,7 +95,7 @@ router.patch('/cancel-order/:orderId', async (req, res) => {
     }
 });
 
-// Follow Along Milestone 26
+//milestone 28 completed code
 
 router.get('/myorders', async (req, res) => {
     try {
@@ -117,6 +117,11 @@ router.get('/myorders', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+//milestone 28 completd code 
+// cancel the order details 
+// we will add cancel button in my-orders and create an backend endpoint for cancel order.
+// Get the order using this id and mark the status canceled and save the order.
+// If order not found return 404 error.
 router.patch('/cancel-order/:orderId', async (req, res) => {
     try {
         const { orderId } = req.params;
