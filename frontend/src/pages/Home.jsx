@@ -2,6 +2,7 @@
 //milestone_16 completed
 import React, { useEffect, useState } from "react";
 import Product from "../components/auth/Product";
+import { useSelector } from "react-redux"; // Import useSelector to access Redux state
 import Nav from "../components/auth/nav";
 
 
@@ -9,7 +10,8 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState(null); // For error handling
-
+  const dataRedux = useSelector((state) => state.user);
+  const [data, setdata] = useState();
   useEffect(() => {
     fetch("http://localhost:8000/api/v2/product/get-products")
       .then((res) => {

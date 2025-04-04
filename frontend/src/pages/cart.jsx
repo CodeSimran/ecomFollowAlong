@@ -2,12 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import CartProduct from '../components/auth/CartProduct';
 import Nav from '../components/auth/nav';
+import { useSelector } from 'react-redux'; // Import useSelector to access Redux state
+
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Initialize navigate
-
+  const data = useSelector((state) => state.user);
+  const token = localStorage.getItem('token');
   useEffect(() => {
     fetch(`http://localhost:8000/api/v2/product/cartproducts?email=${'Pranav@gmail.com'}`)
       .then((res) => {
