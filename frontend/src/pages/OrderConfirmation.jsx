@@ -10,7 +10,7 @@ const OrderConfirmation = () => {
   const navigate = useNavigate();
   const { addressId, email } = location.state || {};
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); 
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

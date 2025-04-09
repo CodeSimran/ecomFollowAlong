@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../model/order'); // Adjust path as needed
 const User = require('../model/user');   // Adjust path as needed
-
+const { isAuthenticatedUser } = require('../middleware/auth');
 router.post('/place-order', async (req, res) => {
     try {
         const { email, orderItems, shippingAddress } = req.body;

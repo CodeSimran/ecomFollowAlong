@@ -6,6 +6,7 @@ const User = require('../model/user');
 const router = express.Router();
 const { pupload } = require("../multer");
 const path = require('path');
+const { isAuthenticatedUser } = require('../middleware/auth');
 const mongoose = require('mongoose');
 
 const validateProductData = (data) => {
@@ -22,7 +23,7 @@ const validateProductData = (data) => {
 };
 
 // Route: Create a new product
-router.post('/create-product', pupload.array('images', 10), async (req, res) => {
+router.post('/create-product',isAuthenticatedUser, pupload.array('images', 10), async (req, res) => {
     console.log("🛒 Creating product");
     const { name, description, category, tags, price, stock, email } = req.body;
 
@@ -109,7 +110,7 @@ router.get('/my-products', async (req, res) => {
 );
 
 
-router.get('/product/:id', async (req, res) => {
+router.get('/product/:id', isAuthenticatedUser, async (req, res) => {
     console.log("Fetching product");
     const { id } = req.params;
     try {
@@ -124,7 +125,7 @@ router.get('/product/:id', async (req, res) => {
     }
 });
 
-router.put('/update-product/:id', pupload.array('images', 10), async (req, res) => {
+router.put('/update-product/:id',isAuthenticatedUser, pupload.array('images', 10), async (req, res) => {
     const { id } = req.params;
     const { name, description, category, tags, price, stock, email } = req.body;
 
@@ -175,7 +176,7 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
     }
 });
 
-router.delete('/delete-product/:id', async (req, res) => {
+router.delete('/delete-product/:id',isAuthenticatedUser, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -193,7 +194,7 @@ router.delete('/delete-product/:id', async (req, res) => {
 });
 
 
-router.post('/cart', async (req, res) => {
+router.post('/cart',isAuthenticatedUser, async (req, res) => {
     try {
         const { userId, productId, quantity } = req.body;
         const email = userId;
@@ -245,7 +246,7 @@ router.post('/cart', async (req, res) => {
 
 
 // GET cart details endpoint
-router.get('/cartproducts', async (req, res) => {
+router.get('/cartproducts',isAuthenticatedUser, async (req, res) => {
     try {
         const { email } = req.query;
         if (!email) {
@@ -268,7 +269,7 @@ router.get('/cartproducts', async (req, res) => {
     }
 });
 
-router.put('/cartproduct/quantity', async (req, res) => {
+router.put('/cartproduct/quantity',isAuthenticatedUser, async (req, res) => {
     const { email, productId, quantity } = req.body;
     console.log("Updating cart product quantity");
     if (!email || !productId || quantity === undefined) {

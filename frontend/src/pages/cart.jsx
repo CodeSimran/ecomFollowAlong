@@ -5,14 +5,17 @@ import Nav from '../components/auth/nav';
 import { useSelector } from 'react-redux'; // Import useSelector to access Redux state
 
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import axios from 'axios';
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Initialize navigate
   const data = useSelector((state) => state.user);
   const token = localStorage.getItem('token');
+  const email = "Pranav@gmail.com";
+
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v2/product/cartproducts?email=${'Pranav@gmail.com'}`)
+    axios.get(`/api/v2/product/cartproducts?email=${email}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
